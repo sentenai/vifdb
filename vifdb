@@ -46,27 +46,28 @@ def main(conffile: Path, editor: str) -> None:
 
 
 if __name__ == "__main__":
-    myos = platform.system()
-    match myos:
-        case "Darwin":
-            conffile = Path("/usr/local/etc/foundationdb/foundationdb.conf")
-        case "Linux":
-            conffile = Path("/etc/foundationdb/foundationdb.conf")
-        case _:
-            print("We only know about Linux and macOS.")
-            sys.exit(1)
-
     parser = argparse.ArgumentParser(
         prog="vifdb", description="Atomically edits foundationdb.conf"
     )
-
     parser.add_argument("-e", "--editor", default="vi", help="Which editor to use. Defaults to vi")
     parser.add_argument(
         "-f", "--file", help="Path to the foundationdb configuration file"
     )
+
     args = parser.parse_args()
     if args.file:
         conffile = Path(args.file)
+    else:
+        myos = platform.system()
+        match myos:
+            case "Darwin":
+                conffile = Path("/usr/local/etc/foundationdb/foundationdb.conf")
+            case "Linux":
+                conffile = Path("/etc/foundationdb/foundationdb.conf")
+            case _:
+                print("We only know about Linux and macOS.")
+                sys.exit(1)
+
     editor = args.editor
 
     main(conffile, editor)
