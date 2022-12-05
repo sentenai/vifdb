@@ -32,7 +32,6 @@ def main(conffile: Path, editor: str) -> None:
     """
 
     uuid = uuid4()
-    print(conffile.parents[0])
     tmpfile = Path(f"{conffile.parents[0]}/foundationdb.conf-{uuid}.tmp")
     shutil.copy(conffile, tmpfile)
 
