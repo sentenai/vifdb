@@ -42,11 +42,7 @@ def main(conffile: Path, editor: str) -> None:
         print("Your editor emitted a non-zero return code. The original file remains in place.")
         sys.exit(1)
 
-    try:
-        os.rename(tmpfile, conffile)
-        os.remove(tmpfile)
-    except OSError as err:
-        print(f"Unable to delete {tmpfile}...{err}")
+    os.rename(tmpfile, conffile)
 
 
 if __name__ == "__main__":
